@@ -90,7 +90,7 @@ const Navbar = () => {
           {!user ? (
             <button
               onClick={()=>setShowUserLogin(true)}
-              className="px-6 py-2 bg-green-600 text-white rounded-full"
+              className="px-6 py-2 bg-green-600 text-white cursor-pointer  "
             >
               Login
             </button>
@@ -161,7 +161,7 @@ const Navbar = () => {
           {!user ? (
             <button
               onClick={()=>setShowUserLogin(true)}
-              className="bg-green-600 text-white py-2 rounded-full"
+              className="bg-green-600 text-white py-2  "
             >
               Login
             </button>

@@ -3,11 +3,18 @@ import { assets } from "../greencart_assets/assets";
 import { useAppContext } from "../Context/AppContext";
 
 const ProductCard = ({ product }) => {
-  const { currency, addToCart, RemoveFromCart, cartItems, } = useAppContext();
+  const { currency, addToCart, RemoveFromCart, cartItems,navigate } = useAppContext();
 
 
   return (
-    <div className="border border-gray-200 rounded-md bg-white p-3 w-full">
+<div
+  onClick={() => {
+    navigate(`/products/${product.category.toLowerCase()}/${product._id}`);
+    window.scrollTo(0, 0);
+  }}
+  className="border border-gray-200 rounded-md bg-white p-3 w-full"
+>
+
 
       {/* IMAGE */}
       <div className="flex items-center justify-center">
@@ -44,9 +51,9 @@ const ProductCard = ({ product }) => {
         {/* PRICE + CART */}
         <div className="flex items-center justify-between mt-3">
           <p className="text-green-600 font-semibold text-sm">
-            ₹{product.offerPrice}
+          {currency}{product.offerPrice}
             <span className="text-gray-400 text-xs line-through ml-1">
-              ₹{product.price}
+              {currency }{product.price}
             </span>
           </p>
 
