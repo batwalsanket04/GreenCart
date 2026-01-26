@@ -9,6 +9,8 @@ import Login from './Componants/Login'
 import AllProducts from './Pages/AllProducts'
 import ProductCategory from './Pages/ProductCategory'
 import ProductDetails from './Pages/ProductDetails'
+import Cart from './Pages/Cart'
+import AddAddress from './Pages/AddAddress'
 
 const App = () => {
 
@@ -27,6 +29,10 @@ const App = () => {
         <Route path='/product' element={<AllProducts/>} />
         <Route path='/products/:category' element={<ProductCategory/>} />
         <Route path='/products/:category/:id' element={<ProductDetails/>} />
+        <Route path='/cart' element={<Cart/>} />
+        <Route path='/add-address' element={<AddAddress/>} />
+
+
 
 
 

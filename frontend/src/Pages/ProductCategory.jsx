@@ -5,18 +5,17 @@ import { categories } from "../greencart_assets/assets";
 import ProductCard from "../Componants/ProductCard";
 
 const ProductCategory = () => {
-  const { products } = useAppContext();
+  const { products, SearchQuery } = useAppContext();
   const { category } = useParams();
 
-const searchCategory = categories.find(
-  item => item.path.toLowerCase() === category?.toLowerCase()
-);
+  const searchCategory = categories.find(
+    item => item.path.toLowerCase() === category?.toLowerCase()
+  );
 
-
- const filterProducts = products.filter(
-  product => product.category?.toLowerCase() === category?.toLowerCase()
-);
-
+  const filterProducts = products.filter(product =>
+    product.category?.toLowerCase() === category?.toLowerCase() &&
+    product.name?.toLowerCase().includes(SearchQuery.toLowerCase())
+  );
 
   return (
     <div className="mt-16 px-4">
@@ -33,14 +32,13 @@ const searchCategory = categories.find(
       {/* PRODUCTS GRID */}
       {filterProducts.length > 0 ? (
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6">
-         {filterProducts.map(product => (
-  <ProductCard key={product._id} product={product} />
-))}
-
+          {filterProducts.map(product => (
+            <ProductCard key={product._id} product={product} />
+          ))}
         </div>
       ) : (
         <p className="text-gray-500 text-center mt-20">
-          No products found in this category
+          No products found
         </p>
       )}
     </div>

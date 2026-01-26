@@ -30,6 +30,36 @@ fetchProducts();
 
     },[])
 
+// get cart item count
+
+const getCartCount=()=>{
+
+    let totalCount=0;
+
+    for(const item in cartItems)
+    {
+        totalCount+=cartItems[item]
+    }
+    return totalCount;
+}
+
+// return totall cart amount
+
+const getCartAmount=()=>{
+    let totalAmount=0;
+
+    for(const item in cartItems)
+    {
+        let itemInfo=products.find((product)=>product._id===item);
+
+        if(cartItems[item]>0){
+            totalAmount += itemInfo.offerPrice * cartItems[item]
+        }
+    }
+    return Math.floor(totalAmount*100)/100;
+}
+
+
     // add products to cart
 
     const addToCart=(itemId)=>{
@@ -80,6 +110,7 @@ fetchProducts();
         IsSeller,showUserLogin,setShowUserLogin,
         products,currency,addToCart,updateCartItem,
         RemoveFromCart,cartItems,setSearchQuery,SearchQuery,
+        getCartAmount,getCartCount
          
     };
 

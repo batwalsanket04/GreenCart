@@ -159,6 +159,7 @@ const ProductDetails = () => {
         />
       ))}
   </div>
+  <button onClick={()=>{navigate("/product");scrollTo(0,0)}} className="mx-auto cursor-pointer px-12 my-16 py-2.5 border text-green-600 hover:bg-green-600 hover:text-white transition">See more</button>
 </div>
 
     </div>

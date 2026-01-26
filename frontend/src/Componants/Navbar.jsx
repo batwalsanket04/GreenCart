@@ -10,7 +10,7 @@ const Navbar = () => {
   const [open, setOpen] = useState(false);
   const [showProfile, setShowProfile] = useState(false);
 
-  const { user, setuser, navigate, setShowUserLogin , setSearchQuery } = useAppContext();
+  const { user, setuser, navigate, setShowUserLogin , setSearchQuery,getCartCount } = useAppContext();
 
   const login = () => {
     setShowUserLogin(true);
@@ -81,7 +81,7 @@ const Navbar = () => {
             </svg>
 
             <span className="absolute -top-2 -right-3 w-[18px] h-[18px] bg-green-600 text-white text-xs rounded-full flex items-center justify-center">
-              0
+            {getCartCount()}
             </span>
           </div>
            
@@ -127,15 +127,50 @@ const Navbar = () => {
         </div>
 
         {/* MOBILE TOGGLE BUTTON */}
-        <button
-          onClick={() => setOpen(!open)}
-          className="sm:hidden text-2xl"
-        >
-          ☰
-        </button>
+         
+       {/* MOBILE ICONS */}
+<div className="flex items-center gap-5 sm:hidden">
+  
+  {/* SEARCH ICON */}
+  <button onClick={() => setShowMobileSearch(!showMobileSearch)}>
+    <FiSearch className="text-xl text-green-700" />
+  </button>
+
+  {/* CART ICON */}
+  <div
+    onClick={() => navigate("/cart")}
+    className="relative cursor-pointer"
+  >
+    <svg
+      width="18"
+      height="18"
+      viewBox="0 0 14 14"
+      fill="none"
+      className="stroke-green-600"
+    >
+      <path
+        d="M.583.583h2.333l1.564 7.81a1.17 1.17 0 0 0 1.166.94h5.67a1.17 1.17 0 0 0 1.167-.94l.933-4.893H3.5m2.333 8.75a.583.583 0 1 1-1.167 0m6.417 0a.583.583 0 1 1-1.167 0"
+        strokeWidth="1.2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+
+    <span className="absolute -top-2 -right-3 w-[18px] h-[18px] bg-green-600 text-white text-xs rounded-full flex items-center justify-center">
+      {getCartCount()}
+    </span>
+  </div>
+
+  {/* MENU */}
+  <button onClick={() => setOpen(!open)} className="text-2xl">
+    ☰
+  </button>
+</div>
+
       </nav>
 
       {/* MOBILE MENU */}
+      
       {open && (
         <div className="fixed top-[88px] left-0 w-full bg-green-100 shadow-md z-40 flex flex-col gap-4 px-6 py-6 sm:hidden">
           
