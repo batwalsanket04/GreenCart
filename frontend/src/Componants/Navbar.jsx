@@ -39,7 +39,7 @@ const Navbar = () => {
         </NavLink>
 
         {/* DESKTOP MENU */}
-        <div className="hidden sm:flex items-center gap-8 text-sm">
+        <div className="hidden sm:flex items-center gap-8 text-sm font-medium">
 
           <NavLink to="/">Home</NavLink>
           <NavLink to="/product">All Products</NavLink>
@@ -105,7 +105,7 @@ const Navbar = () => {
               {showProfile && (
                 <div className="absolute right-0 top-12 w-44 rounded-xl border border-gray-200 bg-white shadow-lg overflow-hidden">
   <NavLink
-    to="/profile"
+    to="/my-orders"
     className="block px-4 py-2.5 text-sm font-medium text-gray-700 hover:bg-green-50 hover:text-green-700 transition"
   >
     My Orders
