@@ -68,7 +68,7 @@ export const login=async(req,res)=>{
         if(!isMatch)
         {
             return res.status(400).json({success:false,message:"Invalid Credentials"})
-        }
+        } 
 
         const token=jwt.sign({id:user._id},process.env.JWT_SECRET,{expiresIn:'7d'})
         
@@ -86,5 +86,43 @@ export const login=async(req,res)=>{
         console.log(error.message);
         res.status(400).json({success:false,message:error.message})
         
+    }
+}
+
+
+//check auth 
+
+export const isAuth=async(req,res)=>{
+try {
+    const {userId}=req.body;
+    const user=await User.findById(userId).select("-password")
+    return  res.json({success:true,user})
+} catch (error) {
+    
+        console.log(error.message);
+        res.status(400).json({success:false,message:error.message})
+        
+}
+}
+
+
+//logout user
+
+export const Logout=async(req,res)=>{
+    try {
+
+        res.clearCookie('token',
+            {
+                httpOnly:true,
+                secure:process.env.NODE_ENV ==='production',
+                sameSite:process.env.NODE_ENV === 'production' ? 'none':'strict',
+            }
+        );
+
+        return res.json({success:true,message:"Logged Out"})
+        
+    } catch (error) {
+         console.log(error.message)
+         res.json({success:false,message:error.message})
     }
 }
