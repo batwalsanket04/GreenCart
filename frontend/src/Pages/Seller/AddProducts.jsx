@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { assets, categories } from "../../greencart_assets/assets";
+import toast from "react-hot-toast";
 
 const AddProducts = () => {
   const [files, setFiles] = useState([]);
@@ -9,19 +10,49 @@ const AddProducts = () => {
   const [name, setName] = useState("");
   const [offerPrice, setOfferPrice] = useState("");
 
-  const onHandleSubmit = (e) => {
+  const {axios}=useAppContext ();
+
+   const onHandleSubmit = async(e) => {
+
+    try {
     e.preventDefault();
 
-    const productData = {
+    const productData={
       name,
-      description,
+      description:description.split('\n'),
       category,
       price,
-      offerPrice,
-      images: files,
-    };
+      offerPrice
+    }
+    const formData=new FormData();
+    formData.append('productData',JSON.stringify(productData));
 
-    console.log(productData);
+    for(let i=0;i<files.length;i++)
+    {
+      formData.append('images',files[i])
+    }
+
+    const {data}=await axios.post('api/product/add',formData)
+
+    if(data.success)
+    {
+      toast.success(data.message)
+      setName('');
+      setDescription(''),
+      setCategory(''),
+      setFiles([]);
+      setOfferPrice('');
+      setPrice('');
+
+    }
+    else
+    {
+      toast.error(data.message)
+    }
+      
+    } catch (error) {
+       toast.error(error.message)
+    }
   };
 
   const handleImageChange = (e, index) => {

@@ -2,6 +2,10 @@ import { createContext, useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { dummyProducts } from "../greencart_assets/assets";
 import toast from "react-hot-toast";
+import axios from 'axios'
+
+axios.defaults.withCredentials=true;
+axios.defaults.baseURL=import.meta.env.VITE_BACKEND_URL;
 
 export const AppContext=createContext();
 
@@ -19,14 +23,47 @@ const currency = import.meta.env.VITE_CURRENCY;
     const [cartItems,setCartItem]=useState({})
 const [SearchQuery, setSearchQuery] = useState("")
 
+// fetch seller status
+
+const fetchSeller=async()=>{
+    try {
+        const {data}=await axios.get('api/seller/is-auth');
+        if(data.success)
+        {
+            setIsSeller(true)
+
+        }
+        else{
+               setIsSeller(false)
+
+        }
+    } catch (error) {
+               setIsSeller(false)
+        
+    }
+}
+
 
     // fetch all product
     const fetchProducts=async()=>{
-        setProducts(dummyProducts)
+        try {
+            const {data}=await axios.get('/api/product/list')
+            if(data,success)
+            {
+                setProducts(data.products)
+            }
+            else{
+                toast.error(data.message)
+            }
+        } catch (error) {
+             toast.error(error.message)
+        }
     }
 
     useEffect(()=>{
 fetchProducts();
+fetchSeller();
+
 
     },[])
 
@@ -109,8 +146,8 @@ const getCartAmount=()=>{
     const value={ user,setIsSeller,navigate,setuser,
         IsSeller,showUserLogin,setShowUserLogin,
         products,currency,addToCart,updateCartItem,
-        RemoveFromCart,cartItems,setSearchQuery,SearchQuery,
-        getCartAmount,getCartCount
+        RemoveFromCart,cartItems,setSearchQuery,SearchQuery,axios,
+        getCartAmount,getCartCount,fetchProducts
          
     };
 

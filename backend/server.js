@@ -7,6 +7,12 @@ import 'dotenv/config';
 //usermodel
  
 import userRouter from './Routes/userRoute.js';
+import sellerRoute from './Routes/Seller.Routes.js';
+import connectCloudinary from './Configs/cloudinary.js';
+import productRouter from './Routes/product.Route.js';
+import CartRouter from './Routes/Cart.Route.js';
+import addressRouter from './Routes/Address.route.js';
+import orderRouter from './Routes/Order.Route.js';
 
 const app=express();
 
@@ -31,10 +37,20 @@ app.get("/",(req,res)=>{
 
 // user route endpoint 
 app.use('/api/user',userRouter);
+app.use('/api/seller',sellerRoute)
+app.use('/api/product',productRouter)
+app.use('api/cart',CartRouter)
+app.use('api/address',addressRouter)
+app.use('api/order',orderRouter)
+
+
 
 
 //db Connnection
 await Connection();
+//cloudinary connect
+await connectCloudinary();
+
 
 
 
