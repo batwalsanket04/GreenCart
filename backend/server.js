@@ -39,9 +39,9 @@ app.get("/",(req,res)=>{
 app.use('/api/user',userRouter);
 app.use('/api/seller',sellerRoute)
 app.use('/api/product',productRouter)
-app.use('api/cart',CartRouter)
-app.use('api/address',addressRouter)
-app.use('api/order',orderRouter)
+app.use('/api/cart',CartRouter)
+app.use('/api/address',addressRouter)
+app.use('/api/order',orderRouter)
 
 
 

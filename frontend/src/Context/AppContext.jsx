@@ -1,5 +1,5 @@
 import { createContext, useContext, useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useFetcher, useNavigate } from "react-router-dom";
 import { dummyProducts } from "../greencart_assets/assets";
 import toast from "react-hot-toast";
 import axios from 'axios'
@@ -31,7 +31,6 @@ const fetchSeller=async()=>{
         if(data.success)
         {
             setIsSeller(true)
-
         }
         else{
                setIsSeller(false)
@@ -43,12 +42,30 @@ const fetchSeller=async()=>{
     }
 }
 
+// fetch user auth stetus,user data and cart Item
+
+const fetchUser = async () => {
+    try {
+        const { data } = await axios.get('/api/user/is-auth');
+
+        if (data.success) {
+            setuser(data.user);
+            setCartItem(data.user.cartItems || {});
+        }
+
+    } catch (error) {
+        setuser(null);
+    }
+};
+
+
+
 
     // fetch all product
     const fetchProducts=async()=>{
         try {
             const {data}=await axios.get('/api/product/list')
-            if(data,success)
+            if(data.success)
             {
                 setProducts(data.products)
             }
@@ -61,11 +78,36 @@ const fetchSeller=async()=>{
     }
 
     useEffect(()=>{
+fetchUser();
 fetchProducts();
 fetchSeller();
 
 
+
     },[])
+
+//update data base cart item
+
+useEffect(()=>{
+     
+    const updateCart=async()=>{
+        try {
+        const {data}=await axios.post('api/cart/update',{cartItems})
+        if(!data.success)
+        {
+            toast.error(data.message)
+        }
+     } catch (error) {
+        toast.error(error.message)
+     } 
+    }
+
+    if(user)
+    {
+        updateCart();
+    }
+    
+},[cartItems])
 
 // get cart item count
 
@@ -147,7 +189,7 @@ const getCartAmount=()=>{
         IsSeller,showUserLogin,setShowUserLogin,
         products,currency,addToCart,updateCartItem,
         RemoveFromCart,cartItems,setSearchQuery,SearchQuery,axios,
-        getCartAmount,getCartCount,fetchProducts
+        getCartAmount,getCartCount,fetchProducts,setCartItem
          
     };
 

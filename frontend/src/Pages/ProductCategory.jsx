@@ -12,7 +12,7 @@ const ProductCategory = () => {
     item => item.path.toLowerCase() === category?.toLowerCase()
   );
 
-  const filterProducts = products.filter(product =>
+  const filterProducts = (products || [] ).filter(product =>
     product.category?.toLowerCase() === category?.toLowerCase() &&
     product.name?.toLowerCase().includes(SearchQuery.toLowerCase())
   );

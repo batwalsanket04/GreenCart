@@ -1,7 +1,11 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { assets } from "../greencart_assets/assets";
+import { useAppContext } from "../Context/AppContext";
 
 const AddAddress = () => {
+  
+  const {axios,user,navigate}=useAppContext();
+
   const [address, setAddress] = useState({
     firstname: "",
     lastname: "",
@@ -19,10 +23,30 @@ const AddAddress = () => {
     setAddress((prev) => ({ ...prev, [name]: value }));
   };
 
-  const onSubmitHandler = (e) => {
+  const onSubmitHandler = async(e) => {
     e.preventDefault();
-    console.log(address);
+    try {
+      const {data}=await axios.post('api/address/add',{address})
+      if(data.success)
+      {
+        toast.success(data.message)
+        navigate('/cart')
+      }else
+      {
+        toast.error(data.message)
+      }
+    } catch (error) {
+       toast.error(error.message)
+    }
   };
+
+  useEffect(()=>{
+    if(!user)
+    {
+      navigate('/cart')
+    }
+
+  },[])
 
   return (
     <div className="mt-16 pb-16">

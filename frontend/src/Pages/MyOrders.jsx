@@ -3,16 +3,29 @@ import { useAppContext } from "../Context/AppContext";
 import { dummyOrders } from "../greencart_assets/assets";
 
 const MyOrders = () => {
-  const [myorders, setMyOrder] = useState([]);
-  const { currency } = useAppContext();
+  const [myorders, setMyOrders] = useState([]);
+  const { currency,axios,user } = useAppContext();
 
   const fetchMyOrders = async () => {
-    setMyOrder(dummyOrders);
+ try {
+  const {data}=await axios.get('api/order/user')
+  if(data.success)
+  {
+    setMyOrders(data.message)
+  }
+ } catch (error) {
+   console.log(error)
+ }
   };
 
   useEffect(() => {
-    fetchMyOrders();
-  }, []);
+    if(user)
+    {
+      fetchMyOrders();
+
+    }
+    
+  }, [user]);
 
   return (
     <div className="mt-16 pb-16 px-4">

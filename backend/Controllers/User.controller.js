@@ -31,6 +31,7 @@ export const register=async(req,res)=>{
         const newUser=await User.create({name,email,password:hashPass})
 
         const token=jwt.sign({id:newUser._id},process.env.JWT_SECRET,{expiresIn:'2h'})
+        console.log(req.body)
         
         res.cookie('token',token,{httpOnly:true,// prevent the js to access cookie
             secure:process.env.NODE_ENV === 'production',//use secure cookie in production
@@ -92,18 +93,22 @@ export const login=async(req,res)=>{
 
 //check auth 
 
-export const isAuth=async(req,res)=>{
-try {
-    const {userId}=req.body;
-    const user=await User.findById(userId).select("-password")
-    return  res.json({success:true,user})
-} catch (error) {
-    
-        console.log(error.message);
-        res.status(400).json({success:false,message:error.message})
-        
-}
-}
+export const isAuth = async (req, res) => {
+  try {
+
+    const user = await User.findById(req.userId).select("-password");
+
+    return res.json({ success: true, user });
+
+  } catch (error) {
+    console.log(error.message);
+    return res.status(400).json({
+      success: false,
+      message: error.message
+    });
+  }
+};
+
 
 
 //logout user

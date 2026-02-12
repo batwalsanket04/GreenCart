@@ -2,16 +2,17 @@
 import React, { useEffect, useState } from "react"
 import { useAppContext } from "../Context/AppContext"
 import { assets, dummyAddress } from "../greencart_assets/assets";
+import toast, { Toaster } from "react-hot-toast";
 
 const Cart = () => {
     const [showAddress, setShowAddress] = React.useState(false)
 
-    const {products,currency,cartItems,RemoveFromCart,getCartCount,updateCartItem,navigate,getCartAmount}=useAppContext(); 
+    const {products,currency,cartItems,RemoveFromCart,getCartCount,updateCartItem,navigate,getCartAmount,axios,user,setCartItem}=useAppContext(); 
 
     const [cartArray,setCartArray]=useState([]);
-    const [addresses,setAddresses]=useState(dummyAddress);
+    const [addresses,setAddresses]=useState([]);
     const [showAddresses,setShowAddresses]=useState(false);
-    const [selectedAddress,setSelectedAddress]=useState(dummyAddress[0])
+    const [selectedAddress,setSelectedAddress]=useState(null)
     const [paymentOption,setpaymentOption]=useState("COD");
 
     const getCart=()=>{
@@ -29,6 +30,29 @@ const Cart = () => {
         setCartArray(tempArray);
     }
 
+
+    // fetch the user address
+
+    const userAddress=async()=>{
+        try {
+             const {data}=await axios.get('/api/address/get')
+             if(data.success)
+             {
+                setAddresses(data.addresses)
+                if(data.addresses.length>0)
+                {
+                    setSelectedAddress(data.addresses[0])
+                }
+                else
+                {
+                    toast.error(data.message)
+                }
+             }
+        } catch (error) {
+            toast.error(error.message)
+        }
+    }
+
     useEffect(()=>{
   if(products.length>0 && cartItems)
   {
@@ -38,7 +62,40 @@ const Cart = () => {
     },[products,cartItems])
 
 
+    useEffect(()=>{
+        if(user)
+        {
+            userAddress();
+        }
+    },[user])
+
+
     const placeOrder=async()=>{
+        try {
+            if(!selectedAddress)
+            {
+                return toast.error("Please select the address")
+            }
+            // place order with COD
+            if(paymentOption==="COD")
+            {
+               const {data}=await axios.post('api/order/cod',{
+                userId:user._id,
+                items:cartArray.map(item=>({products:item._id,quantity:item.quantity})),address:selectedAddress._id
+               }) 
+               if(data.success)
+               {
+                toast.success(data.message)
+                setCartItem({});
+                navigate('/my-orders')
+               }else
+               {
+                toast.error(data.message)
+               }
+            }
+        } catch (error) {
+          toast.error(error.message)  
+        }
 
     }
 

@@ -4,7 +4,7 @@ import toast, { Toaster } from "react-hot-toast";
 
 const ProductList = () => {
 
-    const {currency,products,axios}=useAppContext()
+    const {currency,products,axios,fetchProducts}=useAppContext()
 
     const toggleStock=async(id,inStock)=>{
         try {

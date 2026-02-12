@@ -1,30 +1,39 @@
 import React, { useState } from "react";
 import { useAppContext } from "../Context/AppContext";
+ 
+import toast from "react-hot-toast";
 
 const Login = () => {
-  const { setShowUserLogin,setuser } = useAppContext();
+  const { setShowUserLogin,setuser,navigate,axios } = useAppContext();
 
   const [isLogin, setIsLogin] = useState(true); 
 
-  const [form,setForm]=useState({username:"",email:"",password:""})
+  const [form,setForm]=useState({name:"",email:"",password:""})
 
   const handleForm=(e)=>{
     const {name,value}=e.target;
     setForm({...form,[name]:value})
-    console.log(form)
+    // console.log(form)
   }
 
-  const handleSumbit=(e)=>{
-    e.preventDefault();
+  const handleSumbit=async(e)=>{
+    try {
+      e.preventDefault();
+      const endpoint = isLogin ? "login" : "register";
 
-    setuser({
-      email:'batwal@gmail.com',
-      username:'Sanket'
-    })
-
-    console.log(form);
-    setShowUserLogin(false)
-   
+      const {data}=await axios.post(`api/user/${endpoint}`,form)
+      if(data.success)
+      {
+        navigate('/')
+        setuser(data.user)
+        setShowUserLogin(false)
+      }else{
+         toast.error(data.message)
+      }
+    } catch (error) {
+         toast.error(error.message)
+      
+    }
     
   }
 
@@ -49,10 +58,10 @@ const Login = () => {
             className="w-full mb-3 rounded-md border border-gray-300 bg-gray-50 px-3 py-2.5 text-sm outline-none focus:border-green-600 focus:ring-1 focus:ring-green-600"
             type="text"
             placeholder="Username"
-            name="username"
-            value={form.username}
+            name="name"
+            value={form.name}
             onChange={(e)=>handleForm(e)}
-            id="username"
+            id="name"
             required
           />
         )}

@@ -13,7 +13,7 @@ const Categories = () => {
     categories.map((val,index)=>(
         <div key={index} className='group cursor-pointer py-5 px-3 gap-2 rounded-lg flex flex-col justify-center items-center' style={{backgroundColor:val.bgColor}}
         onClick={()=>{navigate(`/products/${val.path.toLowerCase()}`);
-        ScrollTo(0,0)
+        scrollTo(0,0)
         }}>
             <img src={val.image} alt={val.text} className='group-hover:scal-108 transition' />
             <p className='text-sm font-medium'>{val.text}</p>
