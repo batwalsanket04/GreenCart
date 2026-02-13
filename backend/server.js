@@ -13,6 +13,7 @@ import productRouter from './Routes/product.Route.js';
 import CartRouter from './Routes/Cart.Route.js';
 import addressRouter from './Routes/Address.route.js';
 import orderRouter from './Routes/Order.Route.js';
+import { stripeWebhook } from './Controllers/Order.Controller.js';
 
 const app=express();
 
@@ -20,6 +21,9 @@ const PORT=process.env.PORT || 4000;
 
 // allow multiple origins
 const allowedOrigin = ['http://localhost:5173'];
+
+
+app.post('/stripe',express.raw({type :'application/json'}),stripeWebhook)
 
 
 // middleware
