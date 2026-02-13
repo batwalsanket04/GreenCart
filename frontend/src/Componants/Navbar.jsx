@@ -215,7 +215,7 @@ const Navbar = () => {
 
           {!user ? (
             <button
-              onClick={() => setShowUserLogin(true)}
+              onClick={() => {setShowUserLogin(true);setOpen(false)}}
               className="bg-green-600 text-white py-2  "
             >
               Login

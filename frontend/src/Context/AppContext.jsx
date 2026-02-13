@@ -19,6 +19,7 @@ const currency = import.meta.env.VITE_CURRENCY;
     const [IsSeller,setIsSeller]=useState(false)
     const [showUserLogin,setShowUserLogin]=useState(false)
     const [products,setProducts]=useState([])
+    const [MenuOpen,SetMenuOpen]=useState(false)
 
     const [cartItems,setCartItem]=useState({})
 const [SearchQuery, setSearchQuery] = useState("")
@@ -189,7 +190,7 @@ const getCartAmount=()=>{
         IsSeller,showUserLogin,setShowUserLogin,
         products,currency,addToCart,updateCartItem,
         RemoveFromCart,cartItems,setSearchQuery,SearchQuery,axios,
-        getCartAmount,getCartCount,fetchProducts,setCartItem
+        getCartAmount,getCartCount,fetchProducts,setCartItem,MenuOpen,SetMenuOpen
          
     };
 

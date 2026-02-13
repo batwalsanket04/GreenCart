@@ -20,7 +20,9 @@ const app=express();
 const PORT=process.env.PORT || 4000;
 
 // allow multiple origins
-const allowedOrigin = ['http://localhost:5173'];
+const allowedOrigin = ['http://localhost:5173',
+    'https://green-cartfrontend.vercel.app/'
+];
 
 
 app.post('/stripe',express.raw({type :'application/json'}),stripeWebhook)
