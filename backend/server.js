@@ -1,68 +1,70 @@
-import cookieParser from 'cookie-parser';
-import express from 'express'
-import cors from 'cors';
-import Connection from './Configs/DB.js';
-import 'dotenv/config';
+    import cookieParser from 'cookie-parser';
+    import express from 'express'
+    import cors from 'cors';
+    import Connection from './Configs/DB.js';
+    import 'dotenv/config';
 
-//usermodel
- 
-import userRouter from './Routes/userRoute.js';
-import sellerRoute from './Routes/Seller.Routes.js';
-import connectCloudinary from './Configs/cloudinary.js';
-import productRouter from './Routes/product.Route.js';
-import CartRouter from './Routes/Cart.Route.js';
-import addressRouter from './Routes/Address.route.js';
-import orderRouter from './Routes/Order.Route.js';
-import { stripeWebhook } from './Controllers/Order.Controller.js';
+    //usermodel
+    
+    import userRouter from './Routes/userRoute.js';
+    import sellerRoute from './Routes/Seller.Routes.js';
+    import connectCloudinary from './Configs/cloudinary.js';
+    import productRouter from './Routes/product.Route.js';
+    import CartRouter from './Routes/Cart.Route.js';
+    import addressRouter from './Routes/Address.route.js';
+    import orderRouter from './Routes/Order.Route.js';
+    import { stripeWebhook } from './Controllers/Order.Controller.js';
 
-const app=express();
+    const app=express();
 
-const PORT=process.env.PORT || 4000;
+    const PORT=process.env.PORT || 4000;
 
-// allow multiple origins
-const allowedOrigin = ['http://localhost:5173',
-    'https://green-cartfrontend-ifdnhaf5-sanket-batwal-projects.vercel.app/'
-];
+    // allow multiple origins
+    const allowedOrigin = ['http://localhost:5173',
+        'https://green-cartfrontend-ifdnhaf5-sanket-batwal-projects.vercel.app'
+    ];
 
-
-app.post('/stripe',express.raw({type :'application/json'}),stripeWebhook)
-
-
-// middleware
-
-app.use(express.json());
-app.use(cookieParser());
-app.use(cors({
-  origin: allowedOrigin,
-  credentials: true
-}));
-
-app.get("/",(req,res)=>{
-    res.send("API Working")
-});
-
-// user route endpoint 
-app.use('/api/user',userRouter);
-app.use('/api/seller',sellerRoute)
-app.use('/api/product',productRouter)
-app.use('/api/cart',CartRouter)
-app.use('/api/address',addressRouter)
-app.use('/api/order',orderRouter)
+    app.use(cors({
+    origin: allowedOrigin,
+    credentials: true
+    }));
 
 
+    app.post('/stripe',express.raw({type :'application/json'}),stripeWebhook)
 
 
-//db Connnection
-await Connection();
-//cloudinary connect
-await connectCloudinary();
+    // middleware
+
+    app.use(express.json());
+    app.use(cookieParser());
+    
+
+    app.get("/",(req,res)=>{
+        res.send("API Working")
+    });
+
+    // user route endpoint 
+    app.use('/api/user',userRouter);
+    app.use('/api/seller',sellerRoute)
+    app.use('/api/product',productRouter)
+    app.use('/api/cart',CartRouter)
+    app.use('/api/address',addressRouter)
+    app.use('/api/order',orderRouter)
 
 
 
 
+    //db Connnection
+    await Connection();
+    //cloudinary connect
+    await connectCloudinary();
 
 
 
-app.listen(PORT,()=>{
-    console.log(`Server is Up http://localhost:${PORT}`)
-})
+
+
+
+
+    app.listen(PORT,()=>{
+        console.log(`Server is Up http://localhost:${PORT}`)
+    })
