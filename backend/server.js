@@ -20,27 +20,18 @@
     const PORT=process.env.PORT || 4000;
 
     // allow multiple origins
-   const allowedOrigin = [
-  "http://localhost:5173",
-  "https://green-cartfrontend-ifdnhaf5-sanket-batwal-projects.vercel.app"
+ 
+
+   const allowedOrigins = [
+  "http://localhost:5174",
+  "https://green-cartfrontend-6b8prdchm-sanket-batwal-projects.vercel.app"
 ];
 
-   app.use(cors({
-  origin: (origin, callback) => {
 
-    if (!origin) return callback(null, true);
-
-    if (allowedOrigin.includes(origin)) {
-      return callback(null, true);
-    }
-
-    console.log("Blocked Origin:", origin);
-
-    return callback(new Error("CORS not allowed"));
-  },
+app.use(cors({
+  origin: allowedOrigins,
   credentials: true
 }));
-
 
     app.post('/stripe',express.raw({type :'application/json'}),stripeWebhook)
 
