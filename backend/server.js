@@ -22,14 +22,20 @@
     // allow multiple origins
  
 
-   const allowedOrigins = [
+  const allowedOrigins = [
+  "http://localhost:5173",
   "http://localhost:5174",
   "https://green-cartfrontend-6b8prdchm-sanket-batwal-projects.vercel.app"
 ];
 
-
 app.use(cors({
-  origin: allowedOrigins,
+  origin: function(origin, callback) {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error("CORS blocked"));
+    }
+  },
   credentials: true
 }));
 
