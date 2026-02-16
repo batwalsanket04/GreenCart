@@ -25,9 +25,19 @@
     ];
 
     app.use(cors({
-    origin: allowedOrigin,
-    credentials: true
-    }));
+  origin: function (origin, callback) {
+
+    // allow requests with no origin (mobile apps, postman etc)
+    if (!origin) return callback(null, true);
+
+    if (allowedOrigin.includes(origin)) {
+      return callback(null, true);
+    }
+
+    return callback(new Error("CORS not allowed"));
+  },
+  credentials: true
+}));
 
 
     app.post('/stripe',express.raw({type :'application/json'}),stripeWebhook)
