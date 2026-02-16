@@ -6,9 +6,9 @@ import { addProduct, chnageStock, productByid, ProductList } from '../Controller
 const productRouter=express.Router();
 
 
-productRouter.post('/add',upload.array(["images"]),authSeller,addProduct);
+productRouter.post('/add',upload.array("images"),authSeller,addProduct);
 productRouter.get('/list',ProductList)
-productRouter.get('id',productByid)
+productRouter.get('/:id',productByid)
 productRouter.post('/stock',authSeller,chnageStock)
 
 

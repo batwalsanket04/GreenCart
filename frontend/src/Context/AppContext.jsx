@@ -1,6 +1,6 @@
 import { createContext, useContext, useEffect, useState } from "react";
-import { useFetcher, useNavigate } from "react-router-dom";
-import { dummyProducts } from "../greencart_assets/assets";
+import {  useNavigate } from "react-router-dom";
+ 
 import toast from "react-hot-toast";
 import axios from 'axios'
 
@@ -28,7 +28,7 @@ const [SearchQuery, setSearchQuery] = useState("")
 
 const fetchSeller=async()=>{
     try {
-        const {data}=await axios.get('api/seller/is-auth');
+        const {data}=await axios.get('/api/seller/is-auth');
         if(data.success)
         {
             setIsSeller(true)
@@ -93,7 +93,7 @@ useEffect(()=>{
      
     const updateCart=async()=>{
         try {
-        const {data}=await axios.post('api/cart/update',{cartItems})
+        const {data}=await axios.post('/api/cart/update', { cartItems });
         if(!data.success)
         {
             toast.error(data.message)
