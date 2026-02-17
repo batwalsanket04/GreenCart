@@ -25,7 +25,8 @@
   const allowedOrigins = [
   "http://localhost:5173",
   "http://localhost:5174",
-  "https://green-cartfrontend-6b8prdchm-sanket-batwal-projects.vercel.app"
+  // "https://green-cartfrontend-6b8prdchm-sanket-batwal-projects.vercel.app/",
+   "https://greencart-frontend-l8t5.onrender.com/"
 ];
 
 app.use(cors({
