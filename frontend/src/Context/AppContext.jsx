@@ -39,6 +39,8 @@ const fetchSeller=async()=>{
         }
     } catch (error) {
                setIsSeller(false)
+               setCartItem({});
+               
         
     }
 }
@@ -126,18 +128,23 @@ const getCartCount=()=>{
 // return totall cart amount
 
 const getCartAmount=()=>{
+
+     if(!products.length) return 0; 
+
     let totalAmount=0;
 
     for(const item in cartItems)
     {
         let itemInfo=products.find((product)=>product._id===item);
 
-        if(cartItems[item]>0){
+        if(itemInfo && cartItems[item] > 0){
             totalAmount += itemInfo.offerPrice * cartItems[item]
         }
     }
+
     return Math.floor(totalAmount*100)/100;
 }
+
 
 
     // add products to cart
